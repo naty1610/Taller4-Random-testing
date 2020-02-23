@@ -1,11 +1,11 @@
 describe('Los estudiantes under monkeys', function() {
-    /*it('visits los estudiantes and survives monkeys', function() {
+    it('visits los estudiantes and survives monkeys', function() {
         cy.visit('https://losestudiantes.co');
         cy.contains('Cerrar').click();
         cy.wait(1000);
         randomClick(10);
         
-    })*/
+    })
     it('visits los estudiantes and survives monkeys with randomEvent', function() {
         cy.visit('https://losestudiantes.co');
         cy.contains('Cerrar').click();
@@ -37,29 +37,30 @@ function randomClick(monkeysLeft) {
     }   
 }
 
-function randomLlenarCampo(monkeysLeft) {
-
+function randomLlenarCampo(monkeysEvent) {
+    cy.log(monkeysEvent);
     var word = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 9);
 
-    var monkeysLeft = monkeysLeft;
-    if(monkeysLeft > 0) {
+    var monkeys = monkeysEvent;
+    if(monkeys > 0) {
         cy.get('input').then($inputs => {
             var randomCampo = $inputs.get(getRandomInt(0, $inputs.length));
             console.log(randomCampo);
             if(!Cypress.dom.isHidden(randomCampo)) {
                 cy.wrap(randomCampo).click({ force: true }).type(word, { force: true })
-                monkeysLeft = monkeysLeft - 1;
+                monkeys = monkeys - 1;
             }
+            monkeys = monkeys - 1;
             cy.wait(1000);
-            randomLlenarCampo(monkeysLeft);
+            randomLlenarCampo(monkeys);
         });
     }   
 }
 
-function randomSelects(monkeysLeft) {
+function randomSelects(monkeysEvent) {
 
-    var monkeysLeft = monkeysLeft;
-    if(monkeysLeft > 0) {
+    var monkeysSelect = monkeysEvent;
+    if(monkeysSelect > 0) {
         cy.get('select').then($selects => {
             var randomSelect = $selects.get(getRandomInt(0, $selects.length));
             console.log(randomSelect);
@@ -67,27 +68,28 @@ function randomSelects(monkeysLeft) {
                 var option = randomSelect.options[getRandomInt(0, randomSelect.options.length)];
                 console.log(option);
                 cy.wrap(randomSelect).select(option.value, { force: true });
-                monkeysLeft = monkeysLeft - 1;
+                monkeysSelect = monkeysSelect - 1;
             }
+            monkeysSelect = monkeysSelect - 1;
             cy.wait(1000);
-            randomSelects(monkeysLeft);
+            randomSelects(monkeysSelect);
         });
     }   
 }
 
-function randomBoton(monkeysLeft) {
+function randomBoton(monkeysEvent) {
 
-    var monkeysLeft = monkeysLeft;
-    if(monkeysLeft > 0) {
+    var monkeysButton = monkeysEvent;
+    if(monkeysButton > 0) {
         cy.get('button').then($buttons => {
             var randomButton = $buttons.get(getRandomInt(0, $buttons.length));
             console.log(randomButton);
             if(!Cypress.dom.isHidden(randomButton)) {
                 cy.wrap(randomButton).click({ force: true })
-                monkeysLeft = monkeysLeft - 1;
+                monkeysButton = monkeysButton - 1;
             }
             cy.wait(1000);
-            randomBoton(monkeysLeft);
+            randomBoton(monkeysButton);
         });
     }   
 }
@@ -121,7 +123,7 @@ function randomEvent(monkeysLeft) {
                         randomSelects(monkeysEvent);
                         break;
                     case 'button':
-                        console.log('Seleccionar combo al azar');
+                        console.log('Seleccionar botón al azar');
                         randomBoton(monkeysEvent);
                         break;
                     default:
