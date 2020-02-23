@@ -48,7 +48,6 @@ function randomLlenarCampo(monkeysEvent) {
             console.log(randomCampo);
             if(!Cypress.dom.isHidden(randomCampo)) {
                 cy.wrap(randomCampo).click({ force: true }).type(word, { force: true })
-                monkeys = monkeys - 1;
             }
             monkeys = monkeys - 1;
             cy.wait(1000);
@@ -68,7 +67,6 @@ function randomSelects(monkeysEvent) {
                 var option = randomSelect.options[getRandomInt(0, randomSelect.options.length)];
                 console.log(option);
                 cy.wrap(randomSelect).select(option.value, { force: true });
-                monkeysSelect = monkeysSelect - 1;
             }
             monkeysSelect = monkeysSelect - 1;
             cy.wait(1000);
@@ -86,8 +84,8 @@ function randomBoton(monkeysEvent) {
             console.log(randomButton);
             if(!Cypress.dom.isHidden(randomButton)) {
                 cy.wrap(randomButton).click({ force: true })
-                monkeysButton = monkeysButton - 1;
             }
+            monkeysButton = monkeysButton - 1;
             cy.wait(1000);
             randomBoton(monkeysButton);
         });
